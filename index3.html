@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IDEAS · AI презентация</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #0b1b3a, #05070f 70%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 600px;
+      height: 600px;
+      top: -10%;
+      right: -10%;
+      background: rgba(0, 180, 255, 0.12);
+    }
+    body::after {
+      width: 500px;
+      height: 500px;
+      bottom: -10%;
+      left: -10%;
+      background: rgba(255, 140, 0, 0.10);
+    }
+
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      width: 58px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #ffb300, #ff7b00);
+      box-shadow: 
+        0 0 25px rgba(255, 150, 0, 0.5),
+        inset 0 2px 6px rgba(255, 255, 255, 0.25);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover .logo-icon {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 40px rgba(255, 150, 0, 0.7),
+        inset 0 2px 6px rgba(255, 255, 255, 0.3);
+    }
+
+    .logo-icon svg {
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    .logo-text {
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(to bottom, #8ce8ff, #29b6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 15px rgba(41, 182, 255, 0.4));
+      transition: filter 0.3s ease;
+      line-height: 1;
+    }
+
+    .logo:hover .logo-text {
+      filter: drop-shadow(0 0 25px rgba(41, 182, 255, 0.6));
+    }
+
+    .main-container {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-top: 100px;
+      min-height: 70vh;
+      justify-content: center;
+    }
+
+    .slide-outer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .slide-wrapper {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+      padding: 2.5rem 3rem;
+      min-height: 380px;
+      position: relative;
+    }
+
+    .nav-arrow {
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(76, 201, 255, 0.15);
+      border-color: #4cc9ff;
+      box-shadow: 0 0 30px rgba(76, 201, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    .nav-arrow:active {
+      transform: scale(0.92);
+    }
+
+    .nav-arrow.left-arrow svg {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 820px) {
+      .slide-outer {
+        gap: 8px;
+      }
+      .nav-arrow {
+        width: 40px;
+        height: 40px;
+      }
+      .nav-arrow svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .slide-outer {
+        gap: 4px;
+      }
+      .nav-arrow {
+        width: 32px;
+        height: 32px;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .nav-arrow svg {
+        width: 14px;
+        height: 14px;
+      }
+      .slide-wrapper {
+        padding: 1.2rem 1rem;
+      }
+    }
+
+    .slide-container {
+      position: relative;
+      overflow: hidden;
+      min-height: 300px;
+    }
+
+    .slide-track {
+      display: flex;
+      transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      padding: 1rem 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      transition: opacity 0.5s ease, filter 0.5s ease;
+    }
+
+    .slide:not(.active) {
+      opacity: 0.25;
+      filter: blur(2px) brightness(0.6);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      filter: blur(0) brightness(1);
+      pointer-events: auto;
+    }
+
+    .slide-content {
+      flex: 1 1 400px;
+    }
+
+    .slide-image {
+      flex: 0 0 330px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      transition: all 0.5s ease;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .slide:not(.active) .slide-image {
+      opacity: 0.3;
+      transform: scale(0.9);
+      filter: blur(2px);
+    }
+
+    .slide.active .slide-image {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+
+    .slide-image img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .slide.active .slide-image img:hover {
+      transform: scale(1.05);
+    }
+
+    .slide-title {
+      font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #4cc9ff 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.5px;
+      transition: transform 0.5s ease;
+    }
+
+    .slide:not(.active) .slide-title {
+      transform: scale(0.95);
+    }
+
+    .slide-body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 800px;
+    }
+
+    .slide-body p {
+      margin-bottom: 0.8rem;
+    }
+
+    .slide-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .slide-body ul li {
+      padding: 0.5rem 0 0.5rem 1.8rem;
+      position: relative;
+      color: rgba(255, 255, 255, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .slide-body ul li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: #4cc9ff;
+      font-size: 0.8rem;
+    }
+
+    .slide-body ul li:last-child {
+      border-bottom: none;
+    }
+
+    .slide-tag {
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(76, 201, 255, 0.10);
+      border: 1px solid rgba(76, 201, 255, 0.15);
+      color: #4cc9ff;
+      margin-top: 1rem;
+      margin-right: 0.5rem;
+      transition: all 0.4s ease;
+    }
+
+    .slide:not(.active) .slide-tag {
+      opacity: 0.3;
+      transform: scale(0.9);
+    }
+
+    .slide-tag.orange {
+      background: rgba(255, 140, 0, 0.10);
+      border-color: rgba(255, 140, 0, 0.15);
+      color: #ff9a3c;
+    }
+
+    .slide-tag.green {
+      background: rgba(0, 230, 118, 0.10);
+      border-color: rgba(0, 230, 118, 0.15);
+      color: #69f0ae;
+    }
+
+    .slide-tag.purple {
+      background: rgba(156, 39, 176, 0.10);
+      border-color: rgba(156, 39, 176, 0.15);
+      color: #ce93d8;
+    }
+
+    .hero-right {
+      flex: 0 0 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 280px;
+      perspective: 1200px;
+    }
+
+    .slide:not(.active) .hero-right {
+      opacity: 0.3;
+      filter: blur(2px);
+      transform: scale(0.9);
+      transition: all 0.5s ease;
+    }
+
+    .slide.active .hero-right {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+
+    .icon-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+    }
+
+    .icon-wrapper::after {
+      content: '';
+      position: absolute;
+      bottom: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 170, 0, 0.7) 15%,
+        rgba(255, 120, 0, 0.25) 45%,
+        transparent 70%
+      );
+      filter: blur(30px);
+      z-index: 0;
+      animation: pulseCore 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseCore {
+      0%, 100% { transform: translateX(-50%) scale(0.9); opacity: 0.6; }
+      50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      transform-style: preserve-3d;
+      border: none;
+      animation: pulseRing 4s ease-out infinite;
+    }
+
+    .ring:nth-child(1) {
+      width: 260px;
+      height: 260px;
+      animation-delay: 0s;
+      box-shadow: 0 0 40px rgba(76, 201, 255, 0.2), inset 0 0 40px rgba(76, 201, 255, 0.1);
+      background: radial-gradient(circle, rgba(76, 201, 255, 0.06) 0%, transparent 70%);
+    }
+    .ring:nth-child(2) {
+      width: 320px;
+      height: 320px;
+      animation-delay: 1.2s;
+      box-shadow: 0 0 50px rgba(255, 140, 0, 0.15), inset 0 0 50px rgba(255, 140, 0, 0.08);
+      background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 70%);
+    }
+    .ring:nth-child(3) {
+      width: 380px;
+      height: 380px;
+      animation-delay: 2.4s;
+      box-shadow: 0 0 60px rgba(76, 201, 255, 0.1), inset 0 0 60px rgba(76, 201, 255, 0.05);
+      background: radial-gradient(circle, rgba(76, 201, 255, 0.03) 0%, transparent 70%);
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.8); opacity: 0.4; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+
+    .icon-3d {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      transform-style: preserve-3d;
+      transform: rotateX(-15deg) rotateY(-30deg);
+      animation: floatIcon 5s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    .icon-3d .face {
+      position: absolute;
+      border-radius: 20px;
+      backface-visibility: visible;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .icon-3d .front,
+    .icon-3d .back {
+      width: 170px;
+      height: 170px;
+    }
+
+    .icon-3d .front {
+      background: radial-gradient(circle at 35% 30%, #ffb84d, #e06600 75%, #b34700);
+      box-shadow:
+        inset -8px -8px 30px rgba(0,0,0,0.5),
+        inset 12px 12px 40px rgba(255,255,255,0.2),
+        0 20px 60px rgba(255, 120, 0, 0.4);
+      transform: translateZ(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .icon-3d .front .bulb-on-icon {
+      width: 90px;
+      height: 90px;
+      filter: drop-shadow(0 0 30px rgba(255, 200, 100, 0.6));
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    .icon-3d .back {
+      background: radial-gradient(circle at 50% 50%, #8a4a00, #3d1c00 90%);
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.7);
+      transform: rotateY(180deg) translateZ(20px);
+    }
+
+    .icon-3d .left,
+    .icon-3d .right {
+      width: 40px;
+      height: 170px;
+      left: 65px;
+    }
+
+    .icon-3d .right {
+      background: radial-gradient(circle at 30% 50%, #d4880a, #7a3a00 90%);
+      box-shadow: 
+        inset -5px -5px 20px rgba(0,0,0,0.6),
+        inset 8px 8px 20px rgba(255,200,100,0.1);
+      transform: rotateY(90deg) translateZ(85px);
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .icon-3d .left {
+      background: radial-gradient(circle at 70% 50%, #a86500, #5a2e00 90%);
+      box-shadow: inset -5px -5px 20px rgba(0,0,0,0.5);
+      transform: rotateY(-90deg) translateZ(85px);
+      border-right: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .icon-3d .top,
+    .icon-3d .bottom {
+      width: 170px;
+      height: 40px;
+      top: 65px;
+    }
+
+    .icon-3d .top {
+      background: radial-gradient(circle at 50% 30%, #ffd580, #d4880a 90%);
+      box-shadow: 
+        inset 0 10px 40px rgba(255,255,255,0.25),
+        inset 0 -5px 20px rgba(0,0,0,0.2);
+      transform: rotateX(90deg) translateZ(85px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .icon-3d .bottom {
+      background: radial-gradient(circle at 50% 70%, #7a3a00, #3d1c00 90%);
+      box-shadow: inset 0 -10px 30px rgba(0,0,0,0.6);
+      transform: rotateX(-90deg) translateZ(85px);
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    @keyframes floatIcon {
+      0% { transform: rotateX(-15deg) rotateY(-30deg) translateY(0); }
+      50% { transform: rotateX(-15deg) rotateY(-30deg) translateY(-12px); }
+      100% { transform: rotateX(-15deg) rotateY(-30deg) translateY(0); }
+    }
+
+    .highlight-box {
+      background: rgba(76, 201, 255, 0.06);
+      border-left: 3px solid #4cc9ff;
+      padding: 1rem 1.5rem;
+      border-radius: 0 12px 12px 0;
+      margin: 0.8rem 0;
+    }
+
+    .highlight-box.orange {
+      border-left-color: #ff9a3c;
+      background: rgba(255, 140, 0, 0.06);
+    }
+
+    .highlight-box.green {
+      border-left-color: #69f0ae;
+      background: rgba(0, 230, 118, 0.06);
+    }
+
+    .highlight-box p {
+      margin-bottom: 0 !important;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .nav-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .dots {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      flex-shrink: 0;
+    }
+
+    .dot.active {
+      background: #4cc9ff;
+      box-shadow: 0 0 20px rgba(76, 201, 255, 0.4);
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background: rgba(76, 201, 255, 0.4);
+    }
+
+    .slide-counter {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 500;
+      letter-spacing: 1px;
+      padding: 0 0.5rem;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 1px;
+      margin-top: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      padding-top: 1.8rem;
+    }
+
+    .footer-text span {
+      color: #4cc9ff;
+      opacity: 0.5;
+    }
+
+    .ai-literacy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .ai-literacy-grid .item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+    }
+
+    .ai-literacy-grid .item strong {
+      color: #4cc9ff;
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .vote-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .qr-wrapper {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .qr-box {
+      background: white;
+      padding: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-box #qrcode {
+      width: 180px;
+      height: 180px;
+    }
+
+    .qr-box .qr-label {
+      color: #333;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .vote-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .vote-info h3 {
+      font-size: 1.3rem;
+      color: #4cc9ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .vote-info p {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .vote-link {
+      display: inline-block;
+      background: rgba(76, 201, 255, 0.1);
+      border: 1px solid rgba(76, 201, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      color: #4cc9ff;
+      font-size: 0.85rem;
+      word-break: break-all;
+      margin: 0.5rem 0;
+      max-width: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .vote-link:hover {
+      background: rgba(76, 201, 255, 0.2);
+    }
+
+    .copy-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.3rem 1rem;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+      margin-left: 0.5rem;
+    }
+
+    .copy-btn:hover {
+      background: rgba(76, 201, 255, 0.2);
+    }
+
+    .vote-steps {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0.5rem 0;
+    }
+
+    .vote-step {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .vote-step .num {
+      display: inline-block;
+      background: #4cc9ff;
+      color: #0b1b3a;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      line-height: 28px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .vote-step p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      margin: 0;
+    }
+
+    .chart-container {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 320px;
+    }
+
+    .crypto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1rem 0;
+    }
+    .crypto-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .crypto-box .encrypted {
+      font-family: monospace;
+      font-size: 1.1rem;
+      color: #ff9a3c;
+      background: rgba(0,0,0,0.3);
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+      word-break: break-all;
+    }
+    .crypto-box .decrypted {
+      font-family: monospace;
+      font-size: 1.1rem;
+      color: #69f0ae;
+      background: rgba(0,0,0,0.2);
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+      word-break: break-all;
+    }
+    .crypto-box .kb {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      font-family: monospace;
+      background: rgba(0,0,0,0.2);
+      padding: 0.3rem;
+      border-radius: 4px;
+      margin: 0.3rem 0;
+      word-break: break-all;
+      max-height: 80px;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        top: 20px;
+        left: 20px;
+      }
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+      }
+      .logo-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+      .logo-text {
+        font-size: 36px;
+      }
+      .logo {
+        gap: 12px;
+      }
+
+      .main-container {
+        margin-top: 80px;
+        gap: 1.5rem;
+      }
+
+      .slide-wrapper {
+        padding: 1.5rem 1.2rem;
+        min-height: 320px;
+      }
+
+      .slide {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .slide-image {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .slide-image img {
+        height: 180px;
+      }
+
+      .hero-right {
+        flex: 0 0 auto;
+        min-height: 200px;
+        width: 100%;
+      }
+
+      .icon-wrapper {
+        width: 180px;
+        height: 180px;
+      }
+      .icon-wrapper::after {
+        width: 140px;
+        height: 140px;
+        bottom: 20%;
+      }
+      
+      .icon-3d {
+        width: 120px;
+        height: 120px;
+        transform: rotateX(-12deg) rotateY(-25deg);
+      }
+      
+      .icon-3d .front,
+      .icon-3d .back {
+        width: 120px;
+        height: 120px;
+        border-radius: 14px;
+      }
+      
+      .icon-3d .left,
+      .icon-3d .right {
+        width: 28px;
+        height: 120px;
+        left: 46px;
+      }
+      
+      .icon-3d .top,
+      .icon-3d .bottom {
+        width: 120px;
+        height: 28px;
+        top: 46px;
+      }
+      
+      .icon-3d .front { transform: translateZ(14px); }
+      .icon-3d .back { transform: rotateY(180deg) translateZ(14px); }
+      .icon-3d .right { transform: rotateY(90deg) translateZ(60px); }
+      .icon-3d .left { transform: rotateY(-90deg) translateZ(60px); }
+      .icon-3d .top { transform: rotateX(90deg) translateZ(60px); }
+      .icon-3d .bottom { transform: rotateX(-90deg) translateZ(60px); }
+      
+      .icon-3d .front .bulb-on-icon {
+        width: 65px;
+        height: 65px;
+      }
+      
+      .ring:nth-child(1) { width: 190px; height: 190px; }
+      .ring:nth-child(2) { width: 230px; height: 230px; }
+      .ring:nth-child(3) { width: 270px; height: 270px; }
+
+      .nav-area {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+      }
+
+      .dots {
+        order: 2;
+      }
+
+      .slide-counter {
+        text-align: center;
+      }
+
+      .ai-literacy-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .qr-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .qr-box #qrcode {
+        width: 140px;
+        height: 140px;
+      }
+      .crypto-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide-wrapper {
+        padding: 1rem 0.8rem;
+      }
+      .slide-title {
+        font-size: 1.6rem;
+      }
+      .slide-body {
+        font-size: 0.95rem;
+      }
+      .slide-image img {
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.663 17.898C9.204 16.708 8.25 15.63 7.5 14.5C6.5 13 6 11.5 6 10C6 6.5 8.5 4 12 4C15.5 4 18 6.5 18 10C18 11.5 17.5 13 16.5 14.5C15.75 15.63 14.796 16.708 14.337 17.898C14.13 18.462 13.56 18.8 12.945 18.8H11.055C10.44 18.8 9.87 18.462 9.663 17.898Z" fill="white" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+          <path d="M10 19H14V20C14 20.5523 13.5523 21 13 21H11C10.4477 21 10 20.5523 10 20V19Z" fill="white" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+          <ellipse cx="12" cy="10" rx="3" ry="4" fill="rgba(255,255,255,0.15)" />
+          <ellipse cx="11" cy="8" rx="1.5" ry="2" fill="rgba(255,255,255,0.2)" />
+          <ellipse cx="9" cy="7" rx="2" ry="1.5" fill="rgba(255,255,255,0.15)" transform="rotate(-20, 9, 7)" />
+        </svg>
+      </div>
+      <span class="logo-text">IDEAS</span>
+    </a>
+  </header>
+
+  <div id="tsparticles"></div>
+
+  <div class="main-container">
+
+    <div class="slide-outer">
+      <button class="nav-arrow left-arrow" id="prevSlideBtn" aria-label="Предишен слайд">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+
+      <div class="slide-wrapper">
+        <div class="slide-container">
+          <div class="slide-track" id="slideTrack">
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-arrow right-arrow" id="nextSlideBtn" aria-label="Следващ слайд">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav-area">
+      <div class="dots" id="dotsContainer"></div>
+    </div>
+
+    <div class="footer-text">
+      <span id="slideCounter">1 / 9</span> · IDEAS презентация
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // КОНФИГУРАЦИЯ
+    // ============================================
+    const VOTE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdUOQGycDZf-zrfvClNEHlEcHQN8c50bT0e7n5t_BhoRW8JHw/viewform?usp=header';
+    const GOOGLE_SHEET_ID = '1uBBF274HAiMOIqEL5bro4kPCcvj_6nHPbwKzuLmYyyA';
+    const SHEET_NAME = 'Отговори от формуляр 1';
+
+    const slidesData = [
+      {
+        title: 'ПРЕДИЗВИКАТЕЛСТВАТА В IDEAS КАТО МЕТОДИЧЕСКИ МОДЕЛ ЗА ОБУЧЕНИЕ В СЪТРУДНИЧЕСТВО',
+        body: `<p style="font-size:1.2rem; font-weight:600; color:rgba(255,255,255,0.9);">Автори:</p>
+               <p style="font-size:1.1rem; color:#4cc9ff;">Магдалена Мъглижанова</p>
+               <p style="font-size:1.1rem; color:#4cc9ff;">Станимир Недялков Стоянов</p>
+               <p style="font-size:1.1rem; color:#4cc9ff;">Сребрин Кинев Сребрев</p>
+               <span class="slide-tag">статия</span>
+               <span class="slide-tag orange">модел</span>`,
+        hasIcon: true,
+        image: null
+      },
+      {
+        title: 'Идея на статията',
+        body: `<p style="font-size:1.2rem; font-weight:600; color:#4cc9ff; margin-bottom:1rem;">IDEAS като среда за активно, проектно и съвместно обучение</p>
+               <ul>
+                 <li>Учениците решават и създават собствени логически предизвикателства.</li>
+                 <li>Подкрепя междуучилищно и международно сътрудничество.</li>
+                 <li>Използва логическо програмиране, криптиране и представяне на знания.</li>
+                 <li>Развива логическо, алгоритмично и критично мислене, дигитални и комуникационни умения.</li>
+                 <li>Повишава мотивацията за изучаване на новите технологии.</li>
+               </ul>
+               <span class="slide-tag">IDEAS</span>
+               <span class="slide-tag orange">обучение</span>
+               <span class="slide-tag green">сътрудничество</span>`,
+        hasIcon: false,
+        image: null
+      },
+      {
+        title: 'ИИ грамотност в съвременното образование',
+        body: `<p>Организация за икономическо сътрудничество и развитие (OECD) и Европейската комисия предлагат съвместна рамка за развитие на ИИ грамотност при ученици от началното и средното образование.</p>
+               <div class="highlight-box orange">
+                 <p><strong>Основната идея:</strong> Съвременното образование трябва да развива не само умения за използване на технологиите, но и способност за тяхното разбиране, критична оценка и отговорно използване.</p>
+               </div>
+               <span class="slide-tag">AI literacy</span>
+               <span class="slide-tag orange">образование</span>
+               <span class="slide-tag purple">OECD</span>`,
+        hasIcon: false,
+        image: null
+      },
+      {
+        title: 'Рамка за ИИ грамотност',
+        body:
+        `<div class="highlight-box orange"> AI грамотността включва знания, умения и нагласи, които позволяват на учениците да разбират, оценяват и използват ИИ критично, отговорно и творчески.</div>
+          <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0.5rem 0 1rem 0;">
+            <img src="img1.png" alt="AI Literacy Framework" style="width:100%; max-width:900px; height:auto; border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08);" />
+          </div>
+          <span class="slide-tag">framework</span>
+          <span class="slide-tag orange">компетенции</span>
+          <span class="slide-tag purple">AI literacy</span>
+        `,
+        hasIcon: false,
+        image: null
+      },
+      {
+        title: 'Логическото програмиране в обучението',
+        body: `<p>Логическото програмиране е парадигма, основана на формалната логика, използвана за представяне на знания. Тази парадигма обединява концепции от логиката и формалното разсъждение.</p>
+               <div class="highlight-box">
+                 <p>В този контекст логическото програмиране се разглежда като подход, който може да подпомогне усвояването на специализирани знания както в STEM, така и в други области, като същевременно предоставя възможности за ангажиране на учениците с логическо мислене.</p>
+               </div>
+               <span class="slide-tag">логическо програмиране</span>
+               <span class="slide-tag orange">STEM</span>
+               <span class="slide-tag green">формална логика</span>`,
+        hasIcon: false,
+        image: 'https://dashboard.snapcraft.io/site_media/appmedia/2020/04/Prolog-logo-512.png'
+      },
+      {
+        title: 'Методологичен подход в IDEAS',
+        body: `<p style="font-weight:600; color:#4cc9ff; font-size:1.1rem;">Цел: Въвеждане на основни концепции от логическото програмиране чрез игрова и комуникативна дейност.</p>
+               <ul>
+                 <li>Използване на криптиране и декриптиране на съобщения като контекст за обучение.</li>
+                 <li>Преодоляване на трудностите при изучаването на Prolog – абстрактност и декларативен характер.</li>
+                 <li>Прилагане на принципа <strong>„учене, мотивирано от необходимостта от знание“</strong> (need-to-know).</li>
+                 <li>Учениците не изучават Prolog само като набор от правила, а решават конкретни комуникативни задачи, използвайки логическо програмиране.</li>
+                 <li>Подходът съчетава учене чрез действие, решаване на проблеми и игрови елементи.</li>
+               </ul>
+               <span class="slide-tag">методология</span>
+               <span class="slide-tag orange">Prolog</span>
+               <span class="slide-tag green">криптиране</span>`,
+        hasIcon: false,
+        image: 'img2.png'
+      },
+            {
+        title: 'Платформата IDEAS подпомага обучението по Prolog и свързването на учители и училища.',
+        body:
+        `
+          <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0.5rem 0 1rem 0;">
+            <img src="img4.png" alt="AI Literacy Framework" style="width:100%; max-width:900px; height:auto; border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08);" />
+          </div>
+          <span class="slide-tag">framework</span>
+          <span class="slide-tag orange">компетенции</span>
+          <span class="slide-tag purple">AI literacy</span>
+        `,
+        hasIcon: false,
+        image: null
+      },
+       
+      {
+        title: 'Инициативи по логическо програмиране в България - от извънкласни дейности към структурирано STEM обучение',
+        body: `
+               <ul>
+                 <li><strong>Prolog Education Group</strong> и <strong>Digital Bulgaria in Prolog</strong> популяризират Prolog, логическото програмиране и класическия ИИ в училище.</li>
+                 <li>Обучението е свързано с различни области: биология, химия, физика, математика, хуманитарни науки, култура и изкуство.</li>
+                 <li>В началния етап учениците работят с прости модели – класификация на животни и растения.</li>
+                 <li>В гимназиален етап се реализират STEM и проектно-базирани дейности, включващи бази от знания, правила и софтуерни проекти.</li>
+               </ul>
+               <span class="slide-tag">България</span>
+               <span class="slide-tag orange">Prolog</span>
+               <span class="slide-tag green">STEM</span>`,
+        hasIcon: false,
+        image: 'https://miro.medium.com/v2/resize:fit:1200/1*OmZJNJZAKMNA936BSg9Yuw.jpeg'
+      },
+      {
+  title: 'Инициативи по логическо програмиране в Аржентина',
+  body: `<p style="font-weight:600; color:#69f0ae; font-size:1.1rem;">Логическо програмиране чрез геймификация и съвместно обучение</p>
+         <ul>
+           <li>Логическото програмиране се интегрира постепенно в началното и средното образование.</li>
+           <li>Подходът комбинира геймификация, истории, роли и предизвикателства.</li>
+           <li>Учениците работят в групи, като използват логическото програмиране за решаване на проблеми.</li>
+           <li>При деца 8–11 години това е първи досег с програмирането и компютърните науки.</li>
+           <li>За учениците от средното образование дейностите се адаптират към възрастта и предходните им знания.</li>
+           <li>Важна роля има съвместното проектиране между: учители, университетски преподаватели, изследователи, разработчици.</li>
+           <li>Учебните дейности се проектират, прототипират, тестват и усъвършенстват според конкретния училищен контекст.</li>
+         </ul>
+         <span class="slide-tag">Аржентина</span>
+         <span class="slide-tag orange">геймификация</span>
+         <span class="slide-tag purple">сътрудничество</span>`,
+  hasIcon: false,
+  image: null
+},
+      {
+        title: 'Аржентина - България: Сътрудничество в IDEAS',
+        body:
+        `
+          <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0.5rem 0 1rem 0;">
+            <img src="img3.png" alt="AI Literacy Framework" style="width:100%; max-width:900px; height:auto; border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08);" />
+          </div>
+        `,
+        hasIcon: false,
+        image: null
+      },
+   
+    {
+  title: 'Криптирано съобщение изпратено от Аржентина до България',
+  body: `
+    <div class="crypto-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:1rem 0;">
+      <div class="crypto-box" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:1.2rem; min-height:320px;">
+        <p style="font-weight:600; color:#4cc9ff; font-size:1rem;">🔐 Шифрован текст</p>
+        <div class="encrypted" style="font-family:monospace; font-size:1.1rem; color:#ff9a3c; background:rgba(0,0,0,0.3); padding:0.8rem; border-radius:8px; margin:0.5rem 0; word-break:break-all; min-height:60px;">nkrru lxoktjy, vxurum sgqky kbkxeznotm vuyyohrk!</div>
+        <p style="font-weight:600; color:#4cc9ff; margin-top:0.8rem; font-size:0.95rem;">📖 Knowledge Base</p>
+        <div class="kb" style="font-size:0.8rem; color:rgba(255,255,255,0.7); font-family:monospace; background:rgba(0,0,0,0.3); padding:0.8rem; border-radius:6px; margin:0.3rem 0; word-break:break-all; min-height:140px; max-height:180px; overflow-y:auto; line-height:1.8; border:1px solid rgba(255,255,255,0.05);">
+code(a,g). code(b,h). code(c,i). code(d,j). code(e,k). code(f,l).<br>
+code(g,m). code(h,n). code(i,o). code(j,p). code(k,q). code(l,r).<br>
+code(m,s). code(n,t). code(o,u). code(p,v). code(q,w). code(r,x).<br>
+code(s,y). code(t,z). code(u,a). code(v,b). code(w,c). code(x,d).<br>
+code(y,e). code(z,f).
+        </div>
+      </div>
+      <div class="crypto-box" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:1.2rem; min-height:320px; display:flex; flex-direction:column; justify-content:center;">
+        <p style="font-weight:600; color:#69f0ae; font-size:1rem;">✅ Декриптиран текст</p>
+        <div class="decrypted" style="font-family:monospace; font-size:1.3rem; color:#69f0ae; background:rgba(0,0,0,0.2); padding:1rem; border-radius:8px; margin:0.5rem 0; word-break:break-all; min-height:60px; display:flex; align-items:center;">Hello friends, Prolog makes everything possible</div>
+      </div>
+    </div>
+    <span class="slide-tag">криптиране</span>
+    <span class="slide-tag orange">Prolog</span>
+    <span class="slide-tag green">Аржентина</span>
+  `,
+  hasIcon: false,
+  image: null
+},
+{
+  title: 'Криптирано съобщение изпратено от България до Аржентина',
+  body: `
+    <div class="crypto-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:1rem 0;">
+      <div class="crypto-box" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:1.2rem; min-height:320px;">
+        <p style="font-weight:600; color:#4cc9ff; font-size:1rem;">🔐 Шифрован текст</p>
+        <div class="encrypted" style="font-family:monospace; font-size:1.1rem; color:#ff9a3c; background:rgba(0,0,0,0.3); padding:0.8rem; border-radius:8px; margin:0.5rem 0; word-break:break-all; min-height:60px;">nkrru lxoktjy, zngz oy zxak, vxurum igt ju sgte otzkxkyzotm znotmy!
+</div>
+        <p style="font-weight:600; color:#4cc9ff; margin-top:0.8rem; font-size:0.95rem;">📖 Knowledge Base</p>
+        <div class="kb" style="font-size:0.8rem; color:rgba(255,255,255,0.7); font-family:monospace; background:rgba(0,0,0,0.3); padding:0.8rem; border-radius:6px; margin:0.3rem 0; word-break:break-all; min-height:140px; max-height:180px; overflow-y:auto; line-height:1.8; border:1px solid rgba(255,255,255,0.05);">
+code(a,g). code(b,h). code(c,i). code(d,j). code(e,k). code(f,l).<br>
+code(g,m). code(h,n). code(i,o). code(j,p). code(k,q). code(l,r).<br>
+code(m,s). code(n,t). code(o,u). code(p,v). code(q,w). code(r,x).<br>
+code(s,y). code(t,z). code(u,a). code(v,b). code(w,c). code(x,d).<br>
+code(y,e). code(z,f).
+        </div>
+      </div>
+      <div class="crypto-box" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:1.2rem; min-height:320px; display:flex; flex-direction:column; justify-content:center;">
+        <p style="font-weight:600; color:#69f0ae; font-size:1rem;">✅ Декриптиран текст</p>
+        <div class="decrypted" style="font-family:monospace; font-size:1.3rem; color:#69f0ae; background:rgba(0,0,0,0.2); padding:1rem; border-radius:8px; margin:0.5rem 0; word-break:break-all; min-height:60px; display:flex; align-items:center;">That is true, Prolog can do many interesting  things! 
+</div>
+      </div>
+    </div>
+    <span class="slide-tag">криптиране</span>
+    <span class="slide-tag orange">Prolog</span>
+    <span class="slide-tag green">България</span>
+  `,
+  hasIcon: false,
+  image: null
+},
+      {
+        title: '"Тайни агенти" - международна мисия',
+        body:
+        `
+          <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0.5rem 0 1rem 0;">
+            <img src="img5.png" alt="AI Literacy Framework" style="width:100%; max-width:900px; height:auto; border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08);" />
+          </div>
+          <span class="slide-tag">framework</span>
+          <span class="slide-tag orange">компетенции</span>
+          <span class="slide-tag purple">AI literacy</span>
+        `,
+        hasIcon: false,
+        image: null
+      },
+      {
+        title: '"Тайни агенти" - международна мисия',
+        body:
+        `
+          <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0.5rem 0 1rem 0;">
+            <img src="img6.png" alt="AI Literacy Framework" style="width:100%; max-width:900px; height:auto; border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08);" />
+          </div>
+          <span class="slide-tag">framework</span>
+          <span class="slide-tag orange">компетенции</span>
+          <span class="slide-tag purple">AI literacy</span>
+        `,
+        hasIcon: false,
+        image: null
+      },
+      {
+        title: 'Реализация на методиката',
+        body: `<p style="font-weight:600; color:#4cc9ff; font-size:1.1rem;">1. Въвеждане в мисията</p>
+               <ul>
+                 <li>Учителят представя общата цел на комуникацията – местоположение, среща или идентичност.</li>
+                 <li>Въвеждат се интуитивно понятията открит текст, шифрован текст и заместващи/изместени шифри.</li>
+                 <li>Учениците обсъждат мисията и формулират въпроси за кодирането и комуникацията.</li>
+               </ul>
+               <span class="slide-tag">реализация</span>
+               <span class="slide-tag orange">мисия</span>
+               <span class="slide-tag green">енкодери</span>`,
+        hasIcon: false,
+        image: 'img3.png'
+      },
+       {
+        title: 'Реализация на методиката',
+        body: `
+               <p style="font-weight:600; color:#ff9a3c; font-size:1.1rem; margin-top:1rem;">2. Роля на „енкодери“</p>
+               <ul>
+                 <li>Учениците работят в групи и създават база знания в Prolog.</li>
+                 <li>Изграждат двуезичен речник и система за криптиране.</li>
+                 <li>Усвояват факти, константи, променливи и атомни заявки чрез практическа задача.</li>
+               </ul>
+               <p style="font-weight:600; color:#69f0ae; font-size:1.1rem; margin-top:1rem;">3. Създаване на шифър C1</p>
+               <ul>
+                 <li>Проектиране на заместващ или изместен шифър.</li>
+                 <li>Формализиране чрез relation/2 в Prolog.</li>
+                 <li>Съобщението се превежда → кодира → изпраща.</li>
+                 <li>Криптираният текст и описанието на шифъра се предават отделно.</li>
+               </ul>
+               <span class="slide-tag">реализация</span>
+               <span class="slide-tag orange">мисия</span>
+               <span class="slide-tag green">енкодери</span>`,
+        hasIcon: false,
+        image: 'img3.png'
+      },
+      {
+        title: 'IDEAS като среда за международно сътрудничество',
+        body:
+        `
+          <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:0.5rem 0 1rem 0;">
+            <img src="img7.png" alt="AI Literacy Framework" style="width:100%; max-width:900px; height:auto; border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08);" />
+          </div>
+          <span class="slide-tag">framework</span>
+          <span class="slide-tag orange">компетенции</span>
+          <span class="slide-tag purple">AI literacy</span>
+        `,
+        hasIcon: false,
+        image: null
+      },
+      {
+        title: 'Заключение',
+        body: `<p>Методологията стъпва върху предишни инициативи в България и Аржентина и я разширява чрез международен сценарий за съвместно обучение.</p>
+               <div class="highlight-box green">
+                 <p>Първоначалното ѝ прилагане в средни училища показва висока ангажираност, любопитство и мотивация.</p>
+               </div>
+               <p>Макар експериментът да обхваща само началните етапи на дидактическата последователност, той потвърждава осъществимостта на използването на обмен на криптирани съобщения като учебен контекст за Prolog и за по-широко обучение по компютърни науки, включително криптография, комуникация и междукултурно сътрудничество.</p>
+               <span class="slide-tag">заключение</span>
+               <span class="slide-tag orange">международно</span>
+               <span class="slide-tag green">сътрудничество</span>`,
+        hasIcon: false,
+        image: 'img5.png'
+      },
+      {
+  title: 'Гласуване и обратна връзка',
+  body: `
+    <div class="vote-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; width:100%; min-height:300px;">
+      <div class="qr-box" style="background:white; padding:1.5rem; border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,0.4); display:flex; flex-direction:column; align-items:center;">
+        <div id="qrcode" style="width:220px; height:220px;"></div>
+      </div>
+      <p style="font-size:1.2rem; color:rgba(255,255,255,0.85); line-height:1.6; text-align:center; max-width:500px;">Моля, споделете вашето мнение и обратна връзка за презентацията.</p>
+    </div>
+  `,
+  hasIcon: false,
+  image: null
+},
+      {
+  title: '📊 Резултати от анкетата',
+  body: `
+    <div style="width:100%; max-width:900px; margin:0 auto;">
+      <!-- 3 статистически карти -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+        <div style="background:rgba(76,201,255,0.1); border:1px solid rgba(76,201,255,0.2); border-radius:12px; padding:1rem; text-align:center;">
+          <div style="font-size:2rem; font-weight:800; color:#4cc9ff;" id="totalResponses">0</div>
+          <div style="font-size:0.8rem; color:rgba(255,255,255,0.5);">📊 Общо отговори</div>
+        </div>
+        <div style="background:rgba(105,240,174,0.1); border:1px solid rgba(105,240,174,0.2); border-radius:12px; padding:1rem; text-align:center;">
+          <div style="font-size:2rem; font-weight:800; color:#69f0ae;" id="q1YesPercent">0%</div>
+          <div style="font-size:0.8rem; color:rgba(255,255,255,0.5);">✅ Харесаха IDEAS</div>
+        </div>
+        <div style="background:rgba(255,205,86,0.1); border:1px solid rgba(255,205,86,0.2); border-radius:12px; padding:1rem; text-align:center;">
+          <div style="font-size:2rem; font-weight:800; color:#ffcd56;" id="q2YesPercent">0%</div>
+          <div style="font-size:0.8rem; color:rgba(255,255,255,0.5);">👍 Бихте препоръчали</div>
+        </div>
+      </div>
+      
+      <!-- Коментари -->
+      <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:1rem; border:1px solid rgba(255,255,255,0.05); margin-bottom:1rem;">
+        <p style="text-align:center; color:rgba(255,255,255,0.5); font-size:0.9rem; margin-bottom:0.5rem;">
+          💬 Какво биха добавили участниците?
+        </p>
+        <div id="commentsList" style="max-height:100px; overflow-y:auto; font-size:0.9rem; color:rgba(255,255,255,0.7); padding:0.5rem; background:rgba(0,0,0,0.2); border-radius:8px;">
+          <p style="text-align:center; color:rgba(255,255,255,0.3);">Зареждане на коментари...</p>
+        </div>
+      </div>
+      
+      <!-- Графика -->
+      <div class="chart-container">
+        <canvas id="resultsChart"></canvas>
+      </div>
+      <p style="text-align:center; color:rgba(255,255,255,0.3); font-size:0.8rem; margin-top:0.5rem;">
+        🔄 Автоматично обновяване на всеки 30 секунди
+      </p>
+    </div>
+    <span class="slide-tag">резултати</span>
+    <span class="slide-tag orange">анкета</span>
+    <span class="slide-tag green">актуално</span>
+  `,
+  hasIcon: false,
+  image: null
+}
+    ];
+
+    let chartInstance = null;
+    let chartData = {
+      labels: ['Слайд 1', 'Слайд 2', 'Слайд 3', 'Слайд 4', 'Слайд 5', 'Слайд 6', 'Слайд 7'],
+      values: [0, 0, 0, 0, 0, 0, 0]
+    };
+
+    // ============================================
+    // ЗАРЕЖДАНЕ НА ДАННИ ОТ GOOGLE SHEETS
+    // ============================================
+    async function loadChartData() {
+  try {
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+    const response = await fetch(csvUrl);
+    const csvText = await response.text();
+    const rows = csvText.split('\n').map(row => row.split(','));
+    
+    // Прескачаме заглавния ред
+    const dataRows = rows.slice(1).filter(row => row.length > 1 && row[0] && row[0].trim() !== '');
+    
+    if (dataRows.length > 0) {
+      // === ВЪПРОС 1: Хареса ли Ви IDEAS? (Колона B - индекс 1) ===
+      const q1Answers = dataRows.map(row => row[1]?.replace(/"/g, '').trim().toLowerCase() || '');
+      const q1Yes = q1Answers.filter(a => a === 'да').length;
+      const q1No = q1Answers.filter(a => a === 'не').length;
+      
+      // === ВЪПРОС 2: Бихте ли препоръчали? (Колона C - индекс 2) ===
+      const q2Answers = dataRows.map(row => row[2]?.replace(/"/g, '').trim().toLowerCase() || '');
+      const q2Yes = q2Answers.filter(a => a === 'да').length;
+      const q2No = q2Answers.filter(a => a === 'не').length;
+      
+      // === ВЪПРОС 3: Какво бихте добавили? (Колона D - индекс 3) ===
+      const q3Answers = dataRows.map(row => row[3]?.replace(/"/g, '').trim() || '');
+      const q3WithText = q3Answers.filter(a => a.length > 0).length;
+      const q3Empty = q3Answers.filter(a => a.length === 0).length;
+      
+      // Общ брой отговори
+      const totalResponses = dataRows.length;
+      
+      // Данни за графиката
+      chartData.labels = [
+        '✅ Хареса (Да)',
+        '❌ Не хареса',
+        '👍 Препоръчва',
+        '👎 Не препоръчва',
+        '📝 С коментар',
+        '⬜ Без коментар'
+      ];
+      chartData.values = [
+        q1Yes, q1No,
+        q2Yes, q2No,
+        q3WithText, q3Empty
+      ];
+      
+      // Запазваме данните за статистиките
+      window._voteData = {
+        totalResponses,
+        q1: { yes: q1Yes, no: q1No },
+        q2: { yes: q2Yes, no: q2No },
+        q3: { withText: q3WithText, empty: q3Empty }
+      };
+      
+    } else {
+      // Ако няма данни
+      chartData.labels = ['✅ Да', '❌ Не', '📊 Общо'];
+      chartData.values = [0, 0, 0];
+      window._voteData = {
+        totalResponses: 0,
+        q1: { yes: 0, no: 0 },
+        q2: { yes: 0, no: 0 },
+        q3: { withText: 0, empty: 0 }
+      };
+    }
+    updateChart();
+    setTimeout(updateStats, 200);
+  } catch (error) {
+    console.error('Грешка при зареждане на данни:', error);
+    chartData.labels = ['✅ Да', '❌ Не', '📊 Общо'];
+    chartData.values = [0, 0, 0];
+    window._voteData = {
+      totalResponses: 0,
+      q1: { yes: 0, no: 0 },
+      q2: { yes: 0, no: 0 },
+      q3: { withText: 0, empty: 0 }
+    };
+    updateChart();
+    setTimeout(updateStats, 200);
+  }
+}
+
+    function updateChart() {
+  const canvas = document.getElementById('resultsChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (chartInstance) chartInstance.destroy();
+  
+  const colors = [
+    'rgba(76, 201, 255, 0.8)',   // Син - Да
+    'rgba(255, 99, 132, 0.8)',   // Червен - Не
+    'rgba(105, 240, 174, 0.8)',  // Зелен - Препоръчва
+    'rgba(255, 99, 132, 0.6)',   // Червен - Не препоръчва
+    'rgba(206, 147, 216, 0.8)',  // Лилав - С коментар
+    'rgba(200, 200, 200, 0.6)'   // Сив - Без коментар
+  ];
+  
+  chartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: chartData.labels,
+      datasets: [{
+        label: 'Брой отговори',
+        data: chartData.values,
+        backgroundColor: colors.slice(0, chartData.labels.length),
+        borderColor: 'rgba(255,255,255,0.2)',
+        borderWidth: 1,
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let value = context.parsed.y || 0;
+              let total = window._voteData?.totalResponses || 1;
+              let percentage = Math.round((value / total) * 100);
+              return `${value} отговора (${percentage}%)`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: 'rgba(255,255,255,0.5)',
+            stepSize: 1
+          },
+          grid: {
+            color: 'rgba(255,255,255,0.05)'
+          }
+        },
+        x: {
+          ticks: {
+            color: 'rgba(255,255,255,0.6)',
+            font: { size: 10 }
+          },
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+}
+
+function updateStats() {
+  const data = window._voteData;
+  if (!data) return;
+  
+  // Общ брой отговори
+  const totalEl = document.getElementById('totalResponses');
+  if (totalEl) totalEl.textContent = data.totalResponses;
+  
+  // Процент харесали IDEAS
+  const q1YesEl = document.getElementById('q1YesPercent');
+  if (q1YesEl && data.totalResponses > 0) {
+    const pct = Math.round((data.q1.yes / data.totalResponses) * 100);
+    q1YesEl.textContent = pct + '%';
+  } else if (q1YesEl) {
+    q1YesEl.textContent = '0%';
+  }
+  
+  // Процент биха препоръчали
+  const q2YesEl = document.getElementById('q2YesPercent');
+  if (q2YesEl && data.totalResponses > 0) {
+    const pct = Math.round((data.q2.yes / data.totalResponses) * 100);
+    q2YesEl.textContent = pct + '%';
+  } else if (q2YesEl) {
+    q2YesEl.textContent = '0%';
+  }
+  
+  // Зареждане на коментарите
+  loadComments();
+}
+async function loadComments() {
+  try {
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+    const response = await fetch(csvUrl);
+    const csvText = await response.text();
+    const rows = csvText.split('\n').map(row => row.split(','));
+    const dataRows = rows.slice(1).filter(row => row.length > 3 && row[3] && row[3].trim() !== '');
+    
+    // Взимаме коментарите от колона D (индекс 3)
+    const comments = dataRows
+      .map(row => row[3]?.replace(/"/g, '').trim() || '')
+      .filter(c => c.length > 0);
+    
+    const commentsList = document.getElementById('commentsList');
+    if (commentsList) {
+      if (comments.length > 0) {
+        // Показваме максимум 5 коментара
+        const limitedComments = comments.slice(0, 5);
+        commentsList.innerHTML = limitedComments.map(c => 
+          `<div style="padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">💬 ${c}</div>`
+        ).join('');
+        if (comments.length > 5) {
+          commentsList.innerHTML += `<div style="padding:0.4rem 0; color:rgba(255,255,255,0.3); font-size:0.8rem; text-align:center;">... и още ${comments.length - 5} коментара</div>`;
+        }
+      } else {
+        commentsList.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.3); padding:0.5rem;">Все още няма коментари</p>';
+      }
+    }
+  } catch (error) {
+    console.error('Грешка при зареждане на коментари:', error);
+    const commentsList = document.getElementById('commentsList');
+    if (commentsList) {
+      commentsList.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.3);">Не могат да се заредят коментарите</p>';
+    }
+  }
+}
+
+    // ============================================
+    // QR КОД
+    // ============================================
+    function generateQR() {
+      const qrContainer = document.getElementById('qrcode');
+      if (qrContainer && typeof QRCode !== 'undefined') {
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+          text: VOTE_URL,
+          width: 180,
+          height: 180,
+          colorDark: '#0b1b3a',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    }
+
+    function copyLink() {
+      const link = VOTE_URL;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(() => {
+          const btn = document.querySelector('.copy-btn');
+          if (btn) {
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Копиран!';
+            setTimeout(() => { btn.textContent = originalText; }, 2000);
+          }
+        });
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = link;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        const btn = document.querySelector('.copy-btn');
+        if (btn) {
+          const originalText = btn.textContent;
+          btn.textContent = '✅ Копиран!';
+          setTimeout(() => { btn.textContent = originalText; }, 2000);
+        }
+      }
+    }
+
+    // ============================================
+    // СЛАЙД НАВИГАЦИЯ
+    // ============================================
+    const track = document.getElementById('slideTrack');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const counterEl = document.getElementById('slideCounter');
+
+    let currentIndex = 0;
+    let isAnimating = false;
+    const totalSlides = slidesData.length;
+
+    function renderSlides() {
+      track.innerHTML = '';
+      slidesData.forEach((s, i) => {
+        const div = document.createElement('div');
+        div.className = 'slide';
+        if (i === 0) div.classList.add('active');
+        let html = `<div class="slide-content">`;
+        html += `<div class="slide-title">${s.title}</div>`;
+        html += `<div class="slide-body">${s.body}</div>`;
+        html += `</div>`;
+        if (s.hasIcon) {
+          html += getIconHTML();
+        }
+        if (s.image) {
+          html += getImageHTML(s.image);
+        }
+        div.innerHTML = html;
+        track.appendChild(div);
+      });
+
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.dataset.index = i;
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      }
+
+      updateUI(false);
+      setTimeout(() => {
+  generateQR();
+  loadChartData();
+}, 300);
+    }
+
+    function getIconHTML() {
+      return `
+        <div class="hero-right">
+          <div class="icon-wrapper">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="icon-3d">
+              <div class="face front">
+                <svg class="bulb-on-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="bulbGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                      <stop offset="40%" style="stop-color:#f0f8ff;stop-opacity:0.95" />
+                      <stop offset="100%" style="stop-color:#c8d8e8;stop-opacity:0.9" />
+                    </linearGradient>
+                    <radialGradient id="bulbGlow2" cx="30%" cy="30%" r="60%">
+                      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+                      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+                    </radialGradient>
+                  </defs>
+                  <circle cx="12" cy="10" r="8" fill="url(#bulbGlow2)" opacity="0.5" />
+                  <path d="M9.663 17.898C9.204 16.708 8.25 15.63 7.5 14.5C6.5 13 6 11.5 6 10C6 6.5 8.5 4 12 4C15.5 4 18 6.5 18 10C18 11.5 17.5 13 16.5 14.5C15.75 15.63 14.796 16.708 14.337 17.898C14.13 18.462 13.56 18.8 12.945 18.8H11.055C10.44 18.8 9.87 18.462 9.663 17.898Z" fill="url(#bulbGrad2)" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/>
+                  <path d="M10 19H14V20C14 20.5523 13.5523 21 13 21H11C10.4477 21 10 20.5523 10 20V19Z" fill="url(#bulbGrad2)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+                  <ellipse cx="12" cy="10" rx="3" ry="4" fill="white" opacity="0.2" />
+                  <ellipse cx="11" cy="8" rx="1.5" ry="2" fill="white" opacity="0.3" />
+                  <ellipse cx="9" cy="7" rx="2" ry="1.5" fill="white" opacity="0.25" transform="rotate(-20, 9, 7)" />
+                </svg>
+              </div>
+              <div class="face back"></div>
+              <div class="face right"></div>
+              <div class="face left"></div>
+              <div class="face top"></div>
+              <div class="face bottom"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getImageHTML(url) {
+      return `
+        <div class="slide-image">
+          <img src="${url}" alt="Technology and AI illustration" loading="lazy" />
+        </div>
+      `;
+    }
+
+    function updateUI(animate = true) {
+      const slides = track.querySelectorAll('.slide');
+      slides.forEach((el, i) => {
+        el.classList.toggle('active', i === currentIndex);
+      });
+      const dots = dotsContainer.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+      counterEl.textContent = `${currentIndex + 1} / ${totalSlides}`;
+      if (animate) {
+        track.style.transition = 'transform 0.7s cubic-bezier(0.65, 0, 0.35, 1)';
+      } else {
+        track.style.transition = 'none';
+      }
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      if (currentIndex === totalSlides - 1) {
+        setTimeout(() => loadChartData(), 300);
+      }
+    }
+
+    function goTo(index) {
+      if (isAnimating) return;
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      if (index === currentIndex) return;
+      isAnimating = true;
+      currentIndex = index;
+      updateUI(true);
+      if (index === totalSlides - 2) {
+        setTimeout(() => generateQR(), 300);
+      }
+      setTimeout(() => {
+        isAnimating = false;
+      }, 800);
+    }
+
+    function next() { if (!isAnimating) goTo(currentIndex + 1); }
+    function prev() { if (!isAnimating) goTo(currentIndex - 1); }
+
+    document.getElementById('nextSlideBtn').addEventListener('click', next);
+    document.getElementById('prevSlideBtn').addEventListener('click', prev);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    setInterval(() => {
+  if (currentIndex === totalSlides - 1) {
+    loadChartData();
+  }
+}, 30000);
+
+    tsParticles.load('tsparticles', {
+      fpsLimit: 60,
+      background: { color: 'transparent' },
+      particles: {
+        number: { value: 70, density: { enable: true, area: 900 } },
+        color: { value: ['#4cc9ff', '#ff9a3c', '#ffffff'] },
+        shape: { type: 'circle' },
+        opacity: {
+          value: 0.5,
+          random: true,
+          anim: { enable: true, speed: 0.3, opacity_min: 0.1, sync: false }
+        },
+        size: { value: { min: 1, max: 3 }, random: true },
+        links: {
+          enable: true,
+          distance: 150,
+          color: '#4cc9ff',
+          opacity: 0.15,
+          width: 0.8
+        },
+        move: {
+          enable: true,
+          speed: 0.6,
+          direction: 'none',
+          random: false,
+          straight: false,
+          outModes: { default: 'out' },
+          attract: { enable: false }
+        }
+      },
+      interactivity: {
+        detectsOn: 'canvas',
+        events: {
+          onHover: { enable: true, mode: 'grab' },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 180, links: { opacity: 0.3 } }
+        }
+      },
+      detectRetina: true
+    });
+
+    renderSlides();
+  </script>
+</body>
+</html>
