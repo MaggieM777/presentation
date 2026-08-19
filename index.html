@@ -1395,7 +1395,7 @@ code(y,e). code(z,f).
   hasIcon: false,
   image: null
 },
-      {
+            {
   title: 'Резултати от анкетата',
   body: `
     <div style="width:100%; max-width:900px; margin:0 auto;">
@@ -1411,17 +1411,17 @@ code(y,e). code(z,f).
         </div>
         <div style="background:rgba(255,205,86,0.1); border:1px solid rgba(255,205,86,0.2); border-radius:12px; padding:1rem; text-align:center;">
           <div style="font-size:2rem; font-weight:800; color:#ffcd56;" id="q2YesPercent">0%</div>
-          <div style="font-size:0.8rem; color:rgba(255,255,255,0.5);">👍 Бихте препоръчали</div>
+          <div style="font-size:0.8rem; color:rgba(255,255,255,0.5);">✅ ИИ в образованието</div>
         </div>
       </div>
       
-      <!-- Коментари -->
+      <!-- Коментари / Трети въпрос -->
       <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:1rem; border:1px solid rgba(255,255,255,0.05); margin-bottom:1rem;">
         <p style="text-align:center; color:rgba(255,255,255,0.5); font-size:0.9rem; margin-bottom:0.5rem;">
-          💬 Какво биха добавили участниците?
+          💬 Може ли ИИ да повиши мотивацията?
         </p>
         <div id="commentsList" style="max-height:100px; overflow-y:auto; font-size:0.9rem; color:rgba(255,255,255,0.7); padding:0.5rem; background:rgba(0,0,0,0.2); border-radius:8px;">
-          <p style="text-align:center; color:rgba(255,255,255,0.3);">Зареждане на коментари...</p>
+          <p style="text-align:center; color:rgba(255,255,255,0.3);">Зареждане на отговори...</p>
         </div>
       </div>
       
@@ -1430,7 +1430,7 @@ code(y,e). code(z,f).
         <canvas id="resultsChart"></canvas>
       </div>
       <p style="text-align:center; color:rgba(255,255,255,0.3); font-size:0.8rem; margin-top:0.5rem;">
-        🔄 Автоматично обновяване на всеки 30 секунди
+        Автоматично обновяване на всеки 30 секунди
       </p>
     </div>
     <span class="slide-tag">резултати</span>
@@ -1444,8 +1444,8 @@ code(y,e). code(z,f).
 
     let chartInstance = null;
     let chartData = {
-      labels: ['Слайд 1', 'Слайд 2', 'Слайд 3', 'Слайд 4', 'Слайд 5', 'Слайд 6', 'Слайд 7'],
-      values: [0, 0, 0, 0, 0, 0, 0]
+      labels: ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4'],
+      values: [0, 0, 0, 0]
     };
 
     // ============================================
@@ -1462,69 +1462,70 @@ code(y,e). code(z,f).
     const dataRows = rows.slice(1).filter(row => row.length > 1 && row[0] && row[0].trim() !== '');
     
     if (dataRows.length > 0) {
-      // === ВЪПРОС 1: Хареса ли Ви IDEAS? (Колона B - индекс 1) ===
+      // ВЪПРОС 1: Хареса ли Ви IDEAS? (Колона B - индекс 1)
       const q1Answers = dataRows.map(row => row[1]?.replace(/"/g, '').trim().toLowerCase() || '');
       const q1Yes = q1Answers.filter(a => a === 'да').length;
       const q1No = q1Answers.filter(a => a === 'не').length;
       
-      // === ВЪПРОС 2: Бихте ли препоръчали? (Колона C - индекс 2) ===
+      // ВЪПРОС 2: Смятате ли, че ИИ трябва да има по-голяма роля в образованието? (Колона C - индекс 2)
       const q2Answers = dataRows.map(row => row[2]?.replace(/"/g, '').trim().toLowerCase() || '');
       const q2Yes = q2Answers.filter(a => a === 'да').length;
       const q2No = q2Answers.filter(a => a === 'не').length;
       
-      // === ВЪПРОС 3: Какво бихте добавили? (Колона D - индекс 3) ===
-      const q3Answers = dataRows.map(row => row[3]?.replace(/"/g, '').trim() || '');
-      const q3WithText = q3Answers.filter(a => a.length > 0).length;
-      const q3Empty = q3Answers.filter(a => a.length === 0).length;
+      // ВЪПРОС 3: Може ли ИИ да повиши мотивацията? (Колона D - индекс 3)
+      const q3Answers = dataRows.map(row => row[3]?.replace(/"/g, '').trim().toLowerCase() || '');
+      const q3Yes = q3Answers.filter(a => a === 'да').length;
+      const q3No = q3Answers.filter(a => a === 'не').length;
       
-      // Общ брой отговори
+      // ВЪПРОС 4: Трябва ли учениците да създават технологии? (Колона E - индекс 4)
+      const q4Answers = dataRows.map(row => row[4]?.replace(/"/g, '').trim().toLowerCase() || '');
+      const q4Yes = q4Answers.filter(a => a === 'да').length;
+      const q4No = q4Answers.filter(a => a === 'не').length;
+      
       const totalResponses = dataRows.length;
       
-      // Данни за графиката
+      // Данни за графиката - показваме само "Да" за всеки въпрос
       chartData.labels = [
-        '✅ Хареса (Да)',
-        '❌ Не хареса',
-        '👍 Препоръчва',
-        '👎 Не препоръчва',
-        '📝 С коментар',
-        '⬜ Без коментар'
+        'Хареса IDEAS',
+        'ИИ в образованието',
+        'ИИ за мотивация',
+        'Създаване на технологии'
       ];
-      chartData.values = [
-        q1Yes, q1No,
-        q2Yes, q2No,
-        q3WithText, q3Empty
-      ];
+      chartData.values = [q1Yes, q2Yes, q3Yes, q4Yes];
       
-      // Запазваме данните за статистиките
+      // Запазваме всички данни за статистиките
       window._voteData = {
         totalResponses,
-        q1: { yes: q1Yes, no: q1No },
-        q2: { yes: q2Yes, no: q2No },
-        q3: { withText: q3WithText, empty: q3Empty }
+        q1: { yes: q1Yes, no: q1No, label: 'Харесаха IDEAS' },
+        q2: { yes: q2Yes, no: q2No, label: 'ИИ в образованието' },
+        q3: { yes: q3Yes, no: q3No, label: 'ИИ за мотивация' },
+        q4: { yes: q4Yes, no: q4No, label: 'Създаване на технологии' }
       };
       
     } else {
       // Ако няма данни
-      chartData.labels = ['✅ Да', '❌ Не', '📊 Общо'];
-      chartData.values = [0, 0, 0];
+      chartData.labels = ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4'];
+      chartData.values = [0, 0, 0, 0];
       window._voteData = {
         totalResponses: 0,
-        q1: { yes: 0, no: 0 },
-        q2: { yes: 0, no: 0 },
-        q3: { withText: 0, empty: 0 }
+        q1: { yes: 0, no: 0, label: 'Харесаха IDEAS' },
+        q2: { yes: 0, no: 0, label: 'ИИ в образованието' },
+        q3: { yes: 0, no: 0, label: 'ИИ за мотивация' },
+        q4: { yes: 0, no: 0, label: 'Създаване на технологии' }
       };
     }
     updateChart();
     setTimeout(updateStats, 200);
   } catch (error) {
     console.error('Грешка при зареждане на данни:', error);
-    chartData.labels = ['✅ Да', '❌ Не', '📊 Общо'];
-    chartData.values = [0, 0, 0];
+    chartData.labels = ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4'];
+    chartData.values = [0, 0, 0, 0];
     window._voteData = {
       totalResponses: 0,
-      q1: { yes: 0, no: 0 },
-      q2: { yes: 0, no: 0 },
-      q3: { withText: 0, empty: 0 }
+      q1: { yes: 0, no: 0, label: 'Харесаха IDEAS' },
+      q2: { yes: 0, no: 0, label: 'ИИ в образованието' },
+      q3: { yes: 0, no: 0, label: 'ИИ за мотивация' },
+      q4: { yes: 0, no: 0, label: 'Създаване на технологии' }
     };
     updateChart();
     setTimeout(updateStats, 200);
@@ -1538,12 +1539,10 @@ code(y,e). code(z,f).
   if (chartInstance) chartInstance.destroy();
   
   const colors = [
-    'rgba(76, 201, 255, 0.8)',   // Син - Да
-    'rgba(255, 99, 132, 0.8)',   // Червен - Не
-    'rgba(105, 240, 174, 0.8)',  // Зелен - Препоръчва
-    'rgba(255, 99, 132, 0.6)',   // Червен - Не препоръчва
-    'rgba(206, 147, 216, 0.8)',  // Лилав - С коментар
-    'rgba(200, 200, 200, 0.6)'   // Сив - Без коментар
+    'rgba(76, 201, 255, 0.8)',   // Син
+    'rgba(105, 240, 174, 0.8)',  // Зелен
+    'rgba(255, 205, 86, 0.8)',   // Жълт
+    'rgba(206, 147, 216, 0.8)'   // Лилав
   ];
   
   chartInstance = new Chart(ctx, {
@@ -1551,7 +1550,7 @@ code(y,e). code(z,f).
     data: {
       labels: chartData.labels,
       datasets: [{
-        label: 'Брой отговори',
+        label: 'Брой отговори "Да"',
         data: chartData.values,
         backgroundColor: colors.slice(0, chartData.labels.length),
         borderColor: 'rgba(255,255,255,0.2)',
@@ -1610,7 +1609,7 @@ function updateStats() {
   const totalEl = document.getElementById('totalResponses');
   if (totalEl) totalEl.textContent = data.totalResponses;
   
-  // Процент харесали IDEAS
+  // Процент за първия въпрос (Харесаха IDEAS)
   const q1YesEl = document.getElementById('q1YesPercent');
   if (q1YesEl && data.totalResponses > 0) {
     const pct = Math.round((data.q1.yes / data.totalResponses) * 100);
@@ -1619,7 +1618,7 @@ function updateStats() {
     q1YesEl.textContent = '0%';
   }
   
-  // Процент биха препоръчали
+  // Процент за втория въпрос (ИИ в образованието)
   const q2YesEl = document.getElementById('q2YesPercent');
   if (q2YesEl && data.totalResponses > 0) {
     const pct = Math.round((data.q2.yes / data.totalResponses) * 100);
@@ -1628,9 +1627,10 @@ function updateStats() {
     q2YesEl.textContent = '0%';
   }
   
-  // Зареждане на коментарите
+  // Зареждане на отговорите за третия въпрос (ИИ за мотивация)
   loadComments();
 }
+
 async function loadComments() {
   try {
     const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
@@ -1639,31 +1639,37 @@ async function loadComments() {
     const rows = csvText.split('\n').map(row => row.split(','));
     const dataRows = rows.slice(1).filter(row => row.length > 3 && row[3] && row[3].trim() !== '');
     
-    // Взимаме коментарите от колона D (индекс 3)
-    const comments = dataRows
+    // Взимаме отговорите на въпрос 3 (колона D - индекс 3)
+    const q3Answers = dataRows
       .map(row => row[3]?.replace(/"/g, '').trim() || '')
-      .filter(c => c.length > 0);
+      .filter(a => a.length > 0);
+    
+    const q3Yes = q3Answers.filter(a => a.toLowerCase() === 'да').length;
+    const q3No = q3Answers.filter(a => a.toLowerCase() === 'не').length;
+    const total = q3Yes + q3No;
     
     const commentsList = document.getElementById('commentsList');
     if (commentsList) {
-      if (comments.length > 0) {
-        // Показваме максимум 5 коментара
-        const limitedComments = comments.slice(0, 5);
-        commentsList.innerHTML = limitedComments.map(c => 
-          `<div style="padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">💬 ${c}</div>`
-        ).join('');
-        if (comments.length > 5) {
-          commentsList.innerHTML += `<div style="padding:0.4rem 0; color:rgba(255,255,255,0.3); font-size:0.8rem; text-align:center;">... и още ${comments.length - 5} коментара</div>`;
-        }
+      if (total > 0) {
+        commentsList.innerHTML = `
+          <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+            <div style="background:rgba(105,240,174,0.15); padding:0.3rem 1rem; border-radius:20px; border:1px solid rgba(105,240,174,0.3);">
+              Да: ${q3Yes} (${Math.round((q3Yes/total)*100)}%)
+            </div>
+            <div style="background:rgba(255,99,132,0.15); padding:0.3rem 1rem; border-radius:20px; border:1px solid rgba(255,99,132,0.3);">
+              Не: ${q3No} (${Math.round((q3No/total)*100)}%)
+            </div>
+          </div>
+        `;
       } else {
-        commentsList.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.3); padding:0.5rem;">Все още няма коментари</p>';
+        commentsList.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.3); padding:0.5rem;">Все още няма отговори на този въпрос</p>';
       }
     }
   } catch (error) {
-    console.error('Грешка при зареждане на коментари:', error);
+    console.error('Грешка при зареждане на отговорите:', error);
     const commentsList = document.getElementById('commentsList');
     if (commentsList) {
-      commentsList.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.3);">Не могат да се заредят коментарите</p>';
+      commentsList.innerHTML = '<p style="text-align:center; color:rgba(255,255,255,0.3);">Не могат да се заредят отговорите</p>';
     }
   }
 }
