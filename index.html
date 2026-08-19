@@ -1382,14 +1382,14 @@ code(y,e). code(z,f).
         hasIcon: false,
         image: 'img5.png'
       },
-      {
+     {
   title: 'Гласуване и обратна връзка',
   body: `
-    <div class="vote-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; width:100%; min-height:300px;">
-      <div class="qr-box" style="background:white; padding:1.5rem; border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,0.4); display:flex; flex-direction:column; align-items:center;">
-        <div id="qrcode" style="width:220px; height:220px;"></div>
+    <div class="vote-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; width:100%; min-height:400px;">
+      <div class="qr-box" style="background:white; padding:2rem; border-radius:24px; box-shadow:0 8px 32px rgba(0,0,0,0.4); display:flex; flex-direction:column; align-items:center;">
+        <div id="qrcode" style="width:320px; height:320px;"></div>
       </div>
-      <p style="font-size:1.2rem; color:rgba(255,255,255,0.85); line-height:1.6; text-align:center; max-width:500px;">Моля, споделете вашето мнение и обратна връзка за презентацията.</p>
+      <p style="font-size:1.4rem; color:rgba(255,255,255,0.85); line-height:1.6; text-align:center; max-width:600px;">Моля, споделете вашето мнение и обратна връзка за презентацията.</p>
     </div>
   `,
   hasIcon: false,
@@ -1444,9 +1444,9 @@ code(y,e). code(z,f).
 
     let chartInstance = null;
     let chartData = {
-      labels: ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4'],
-      values: [0, 0, 0, 0]
-    };
+  labels: ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4', 'Въпрос 5'],
+  values: [0, 0, 0, 0, 0]
+};
 
     // ============================================
     // ЗАРЕЖДАНЕ НА ДАННИ ОТ GOOGLE SHEETS
@@ -1476,22 +1476,30 @@ code(y,e). code(z,f).
       const q3Answers = dataRows.map(row => row[3]?.replace(/"/g, '').trim().toLowerCase() || '');
       const q3Yes = q3Answers.filter(a => a === 'да').length;
       const q3No = q3Answers.filter(a => a === 'не').length;
-      
-      // ВЪПРОС 4: Трябва ли учениците да създават технологии? (Колона E - индекс 4)
+
+     // ВЪПРОС 4: Смятате ли, че в ерата на ИИ логическото и критичното мислене стават по-важни от запаметяването на информация? (Колона E - индекс 4)
       const q4Answers = dataRows.map(row => row[4]?.replace(/"/g, '').trim().toLowerCase() || '');
       const q4Yes = q4Answers.filter(a => a === 'да').length;
       const q4No = q4Answers.filter(a => a === 'не').length;
       
+      // ВЪПРОС 5: Трябва ли учениците да създават технологии? (Колона F - индекс 5)
+      const q5Answers = dataRows.map(row => row[5]?.replace(/"/g, '').trim().toLowerCase() || '');
+      const q5Yes = q5Answers.filter(a => a === 'да').length;
+      const q5No = q5Answers.filter(a => a === 'не').length;
+      
+      
       const totalResponses = dataRows.length;
       
-      // Данни за графиката - показваме само "Да" за всеки въпрос
+      // Данни за графиката - показваме "Да" за всеки въпрос
       chartData.labels = [
         'Хареса IDEAS',
         'ИИ в образованието',
         'ИИ за мотивация',
-        'Създаване на технологии'
+        'Ерата на ИИ логическото и критичното мислене',
+        'Създаване на технологии',
+        
       ];
-      chartData.values = [q1Yes, q2Yes, q3Yes, q4Yes];
+      chartData.values = [q1Yes, q2Yes, q3Yes, q4Yes, q5Yes];
       
       // Запазваме всички данни за статистиките
       window._voteData = {
@@ -1499,33 +1507,36 @@ code(y,e). code(z,f).
         q1: { yes: q1Yes, no: q1No, label: 'Харесаха IDEAS' },
         q2: { yes: q2Yes, no: q2No, label: 'ИИ в образованието' },
         q3: { yes: q3Yes, no: q3No, label: 'ИИ за мотивация' },
-        q4: { yes: q4Yes, no: q4No, label: 'Създаване на технологии' }
+        q4: { yes: q4Yes, no: q4No, label: 'Създаване на технологии' },
+        q5: { yes: q5Yes, no: q5No, label: 'Въпрос 5' }  // ДОБАВИ ТОВА
       };
       
     } else {
       // Ако няма данни
-      chartData.labels = ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4'];
-      chartData.values = [0, 0, 0, 0];
+      chartData.labels = ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4', 'Въпрос 5'];
+      chartData.values = [0, 0, 0, 0, 0];
       window._voteData = {
         totalResponses: 0,
         q1: { yes: 0, no: 0, label: 'Харесаха IDEAS' },
         q2: { yes: 0, no: 0, label: 'ИИ в образованието' },
         q3: { yes: 0, no: 0, label: 'ИИ за мотивация' },
-        q4: { yes: 0, no: 0, label: 'Създаване на технологии' }
+        q4: { yes: 0, no: 0, label: 'Създаване на технологии' },
+        q5: { yes: 0, no: 0, label: 'Въпрос 5' }
       };
     }
     updateChart();
     setTimeout(updateStats, 200);
   } catch (error) {
     console.error('Грешка при зареждане на данни:', error);
-    chartData.labels = ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4'];
-    chartData.values = [0, 0, 0, 0];
+    chartData.labels = ['Въпрос 1', 'Въпрос 2', 'Въпрос 3', 'Въпрос 4', 'Въпрос 5'];
+    chartData.values = [0, 0, 0, 0, 0];
     window._voteData = {
       totalResponses: 0,
       q1: { yes: 0, no: 0, label: 'Харесаха IDEAS' },
       q2: { yes: 0, no: 0, label: 'ИИ в образованието' },
       q3: { yes: 0, no: 0, label: 'ИИ за мотивация' },
-      q4: { yes: 0, no: 0, label: 'Създаване на технологии' }
+      q4: { yes: 0, no: 0, label: 'Създаване на технологии' },
+      q5: { yes: 0, no: 0, label: 'Въпрос 5' }
     };
     updateChart();
     setTimeout(updateStats, 200);
@@ -1539,11 +1550,12 @@ code(y,e). code(z,f).
   if (chartInstance) chartInstance.destroy();
   
   const colors = [
-    'rgba(76, 201, 255, 0.8)',   // Син
-    'rgba(105, 240, 174, 0.8)',  // Зелен
-    'rgba(255, 205, 86, 0.8)',   // Жълт
-    'rgba(206, 147, 216, 0.8)'   // Лилав
-  ];
+  'rgba(76, 201, 255, 0.8)',   // Син
+  'rgba(105, 240, 174, 0.8)',  // Зелен
+  'rgba(255, 205, 86, 0.8)',   // Жълт
+  'rgba(206, 147, 216, 0.8)',  // Лилав
+  'rgba(255, 154, 60, 0.8)'    // Оранжев - за 5-ти въпрос
+];
   
   chartInstance = new Chart(ctx, {
     type: 'bar',
@@ -1678,19 +1690,19 @@ async function loadComments() {
     // QR КОД
     // ============================================
     function generateQR() {
-      const qrContainer = document.getElementById('qrcode');
-      if (qrContainer && typeof QRCode !== 'undefined') {
-        qrContainer.innerHTML = '';
-        new QRCode(qrContainer, {
-          text: VOTE_URL,
-          width: 180,
-          height: 180,
-          colorDark: '#0b1b3a',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-    }
+  const qrContainer = document.getElementById('qrcode');
+  if (qrContainer && typeof QRCode !== 'undefined') {
+    qrContainer.innerHTML = '';
+    new QRCode(qrContainer, {
+      text: VOTE_URL,
+      width: 300,  // Увеличено от 180 на 300
+      height: 300, // Увеличено от 180 на 300
+      colorDark: '#0b1b3a',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+}
 
     function copyLink() {
       const link = VOTE_URL;
